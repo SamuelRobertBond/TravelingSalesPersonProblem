@@ -27,7 +27,8 @@ public class Driver {
 			Tour tour = new Tour(cities, population[i]);
 		}
 		
-		System.out.println(population[0].length);
+		//Preforms Mutation
+		System.out.println(Utils.mutate(.1f, population[9]));
 		
 		/*for(int i = 0; i < populationSize; ++i){
 			System.out.println(population[i][]);
