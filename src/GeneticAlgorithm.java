@@ -12,18 +12,20 @@ public class GeneticAlgorithm {
   	private double rateXO;
   	private int population[][];
   	private City cities[];
-  	Tour pop[];// = new Tour[tourSize];
+  	Tour pop[];
+  	Tour elite[];
  	 
   	public GeneticAlgorithm(int populationSize, double rateMutation, double rateXO, City cities[]) {
   		this.populationSize = populationSize;
   		this.rateMutation = rateMutation;
   		this.rateXO = rateXO;
   		this.cities = cities;
+  		this.elite = new Tour[populationSize/10];
 	}
   	
   	//Initial Population
   	public int[][] InitPop(int tourSize){
-  		 pop = new Tour[tourSize];
+  		 pop = new Tour[populationSize];
   		population = new int[populationSize][tourSize];
   		
   		LinkedList<Integer> list = new LinkedList<Integer>();
@@ -50,6 +52,15 @@ public class GeneticAlgorithm {
   	  	  	//	System.out.print(population[j][i] + " -> ");
   	  		}
   			pop[j]= new Tour(cities,population[j]);
+  			
+  			/* replace with add to elite function
+  			//add to elite
+  			if(j==0){
+  				elite[0] = pop[j];
+  			}else if (elite.getFitness()<pop[j].getFitness()){
+  				elite = pop[j];
+  			}*/
+  			
   			//System.out.println("\n");
   		}
   		
@@ -113,7 +124,15 @@ public class GeneticAlgorithm {
   				}
   				}// end even crossover
   			pop[i] = new Tour(cities,parent1);//.setTourInt(parent1);
+  			/* replace with add to elite function
+  			if(elite.getFitness()< pop[i].getFitness()){
+  				elite = pop[i];
+  			}*/
 	  		pop[i+1] = new Tour(cities,parent2);
+	  		/* replace with add to elite function
+	  		if(elite.getFitness()< pop[i+1].getFitness()){
+  				elite = pop[i+1];
+  			}*/
 	  		//System.out.println("child1" + pop[i].toString());
 	  		//System.out.println("child2" + pop[i+1].toString());
   			}
@@ -159,5 +178,7 @@ public class GeneticAlgorithm {
   	//Perform Mutation
   	
   	//Check Termination Conditions
-   	 
+  	public Tour getElite(){
+  		return elite[0];
+  	}
 }
