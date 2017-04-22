@@ -22,6 +22,6 @@ public class City {
 	 * @return
 	 */
 	public double howFarFrom(City there){
-	   	return (double)Math.sqrt(Math.pow( (there.x- x),2) + Math.pow( (there.y - y), 2));
+	   	return (int)Math.round(Math.sqrt(Math.pow( (there.x- x),2) + Math.pow( (there.y - y), 2)));
 	}
 }
