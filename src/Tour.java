@@ -76,10 +76,7 @@ public class Tour{
     
     //Helper method used to calculate the fitness value
     private double calculateFitness(double distance){
-    	
-    	//Implement Fitness function
-    	
-    	return 0; 
+    	return 1/distance; 
     }
     
     
