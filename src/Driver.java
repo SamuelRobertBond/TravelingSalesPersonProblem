@@ -11,10 +11,28 @@ public class Driver {
 		//Reads in from file and inits population
 		//Change Parameters before submitting ---------------
 		City cities[] = Utils.getCities(new File("res/dj38.txt"));
-		
+		int maxGeneration = 50;
+		int populationSize = 10;
+		double rateMut=0.1;
+		double rateXO = 0.5;
 		for(City city : cities){
 			System.out.println("City Coordinates\n  X:" + city.x + "\n  Y: " + city.y + "\n" );
 		}
+		
+		GeneticAlgorithm geneAl = new GeneticAlgorithm(populationSize,rateMut,rateXO);
+		
+		int population[][] = geneAl.InitPop(cities.length);
+		
+		for(int i = 0; i < populationSize; ++i){
+			Tour tour = new Tour(cities, population[i]);
+		}
+		
+		System.out.println(population[0].length);
+		
+		/*for(int i = 0; i < populationSize; ++i){
+			System.out.println(population[i][]);
+			Tour initTour = new Tour(cities, population[i]);
+		}*/
 		
 	}
 	

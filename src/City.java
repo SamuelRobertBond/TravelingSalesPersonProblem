@@ -1,9 +1,9 @@
-
+import java.math.BigDecimal;
 
 public class City {
 	
-	public float x;
-	public float y;
+	public double x;
+	public double y;
 	
 	/**
 	 * Data Structure used to store city coordinates
@@ -11,7 +11,7 @@ public class City {
 	 * @param y - Y Coord of a city
 	 */
 	
-	public City(float x, float y) {
+	public City(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -21,7 +21,7 @@ public class City {
 	 * @param there - The City to be travelled to
 	 * @return
 	 */
-	public float howFarFrom(City there){
-	   	return (float)Math.sqrt(Math.pow( (there.x- x),2) + Math.pow( (there.y - x), 2));
+	public double howFarFrom(City there){
+	   	return (double)Math.sqrt(Math.pow( (there.x- x),2) + Math.pow( (there.y - y), 2));
 	}
 }

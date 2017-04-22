@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class Utils {
@@ -41,11 +42,18 @@ public class Utils {
 		
 		for(int i = 0; i < count; ++i){
 			
-			in.nextInt(); //Gets rid of the index in the text file
-			float x = in.nextFloat();
-			float y = in.nextFloat();
+			//String input = in.nextLine();
+			//System.out.println(input);
+			//String[] parsed = input.split("\\s+");//
+			int waste = in.nextInt();
+			double[] parsed = {in.nextDouble(), in.nextDouble()};
 			
-			cities[i] = new City(x , y);
+			//in.nextInt(); //Gets rid of the index in the text file
+			//float x = in.nextFloat();
+			//float y = in.nextFloat();
+			//System.out.println(x+" "+y);
+			
+			cities[i] = new City(parsed[0] , parsed[1]);
 		}
 		
 		

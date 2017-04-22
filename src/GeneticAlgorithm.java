@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+import java.util.Random;
 
 //Imports go here
 
@@ -8,6 +10,7 @@ public class GeneticAlgorithm {
   	private int populationSize;
   	private double rateMutation;
   	private double rateXO;
+  	private int population[][];
  	 
   	public GeneticAlgorithm(int populationSize, double rateMutation, double rateXO) {
   		this.populationSize = populationSize;
@@ -16,8 +19,47 @@ public class GeneticAlgorithm {
 	}
   	
   	//Initial Population
+  	public int[][] InitPop(int tourSize){
+  		
+  		population = new int[populationSize][tourSize];
+  		
+  		LinkedList<Integer> list = new LinkedList<Integer>();
+  		
+  		
+  		
+  		Random r = new Random(); //Replace with something more efficient
+  		int cityIndexes[] = new int[tourSize];
+  		
+  		//Manages Population index
+  		for(int j = 0; j < populationSize; ++j){
+  			
+  			System.out.println("Population: " + j + "\n---------------------");
+  			
+  			//Populates List
+  			for(int i = 0; i < tourSize; ++i){
+  	  			list.add(i);
+  	  		}
+  			
+  			//Generates Parents
+  			for(int i = 0; i < tourSize; ++i){
+  	  			int index = r.nextInt(list.size());
+  	  	  		population[j][i] = list.remove(index);
+  	  	  		System.out.print(population[j][i] + " -> ");
+  	  		}
+  			
+  			
+  			System.out.println("\n");
+  		}
+  		
+ 
+  		
+  		return population;
+  	}
   	
-  	//Evaluate Pupulation
+  	//Evaluate Population
+  	
+  	
+  	
   	
   	//Find Fitness
   	/********************************************************************************
