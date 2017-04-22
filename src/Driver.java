@@ -12,23 +12,23 @@ public class Driver {
 		//Change Parameters before submitting ---------------
 		City cities[] = Utils.getCities(new File("res/dj38.txt"));
 		int maxGeneration = 50;
-		int populationSize = 10;
+		int populationSize = 2;
 		double rateMut=0.1;
 		double rateXO = 0.5;
 		for(City city : cities){
 			System.out.println("City Coordinates\n  X:" + city.x + "\n  Y: " + city.y + "\n" );
 		}
 		
-		GeneticAlgorithm geneAl = new GeneticAlgorithm(populationSize,rateMut,rateXO);
+		GeneticAlgorithm geneAl = new GeneticAlgorithm(populationSize,rateMut,rateXO, Utils.getCities(new File("res/dj38.txt")));
 		
 		int population[][] = geneAl.InitPop(cities.length);
 		
-		for(int i = 0; i < populationSize; ++i){
+		for(int i = 0; i < populationSize; i++){
 			Tour tour = new Tour(cities, population[i]);
 		}
-		
+		geneAl.PMX(cities.length);
 		//Preforms Mutation
-		System.out.println(Utils.mutate(.1f, population[9]));
+		//System.out.println(Utils.mutate(.1f, population[9]));
 		
 		/*for(int i = 0; i < populationSize; ++i){
 			System.out.println(population[i][]);

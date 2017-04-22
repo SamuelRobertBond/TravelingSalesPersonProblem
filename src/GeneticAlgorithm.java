@@ -11,16 +11,19 @@ public class GeneticAlgorithm {
   	private double rateMutation;
   	private double rateXO;
   	private int population[][];
+  	private City cities[];
+  	Tour pop[];// = new Tour[tourSize];
  	 
-  	public GeneticAlgorithm(int populationSize, double rateMutation, double rateXO) {
+  	public GeneticAlgorithm(int populationSize, double rateMutation, double rateXO, City cities[]) {
   		this.populationSize = populationSize;
   		this.rateMutation = rateMutation;
   		this.rateXO = rateXO;
+  		this.cities = cities;
 	}
   	
   	//Initial Population
   	public int[][] InitPop(int tourSize){
-  		
+  		 pop = new Tour[tourSize];
   		population = new int[populationSize][tourSize];
   		
   		LinkedList<Integer> list = new LinkedList<Integer>();
@@ -33,7 +36,7 @@ public class GeneticAlgorithm {
   		//Manages Population index
   		for(int j = 0; j < populationSize; ++j){
   			
-  			System.out.println("Population: " + j + "\n---------------------");
+  			//System.out.println("Population: " + j + "\n---------------------");
   			
   			//Populates List
   			for(int i = 0; i < tourSize; ++i){
@@ -44,11 +47,10 @@ public class GeneticAlgorithm {
   			for(int i = 0; i < tourSize; ++i){
   	  			int index = r.nextInt(list.size());
   	  	  		population[j][i] = list.remove(index);
-  	  	  		System.out.print(population[j][i] + " -> ");
+  	  	  	//	System.out.print(population[j][i] + " -> ");
   	  		}
-  			
-  			
-  			System.out.println("\n");
+  			pop[j]= new Tour(cities,population[j]);
+  			//System.out.println("\n");
   		}
   		
  
@@ -73,8 +75,14 @@ public class GeneticAlgorithm {
   		
   //Perform Crossover
   	public void PMX(int tourSize){
+  		int[] parent1;
+  		int[] parent2;
   		Random r = new Random(); //Replace with something more efficient
   		for(int i=0;i<populationSize/2;i+=2){
+  			parent1 = pop[i].getTourInt();
+  			parent2 = pop[i+1].getTourInt();
+  			//System.out.println("Parent1" + pop[i].toString());
+  			//System.out.println("Parent2" + pop[i+1].toString());
   			int XOIndex[] =new int[2]; 
   			//generate random indexes for crossover
   			XOIndex[0]=	r.nextInt((int)(tourSize*rateXO)); //generate random index for start
@@ -86,27 +94,35 @@ public class GeneticAlgorithm {
   				XOIndex[1]-=(XOIndex[1]-tourSize);//set end index
   			}
   			//System.out.println("Parent1: " + population[i]+"\nParent2:"+population[i+1]);
-  			// do crossover
+  			// do crossover for even amount of parents
   			for(int s = XOIndex[0];s<XOIndex[1];s++ ){
-  				int p1Holder = population[i][s];
-  				int p2Holder = population[i+1][s];
+  				int p1Holder = parent1[s];
+  				int p2Holder = parent2[s];
   				for(int find=0;find<tourSize;find++){
-  					if(population[i][find] == p1Holder && find !=s){
-  					population[i][s] = population[i][find];
-  					population[i][find]=p1Holder;
+  					if(parent1[find] == p2Holder && find !=s){
+  						parent1[s] = parent1[find];
+  						parent1[find]=p1Holder;
   						  }
   					
-  					if(population[i+1][find] == p2Holder && find !=s){
-  	  					population[i+1][s] = population[i+1][find];
-  	  					population[i+1][find]=p2Holder;
+  					if(parent2[find] == p1Holder && find !=s){
+  						parent2[s] = parent2[find];
+  						parent2[find]=p2Holder;
   	  					  }
-  					}
+  					
+  				
   				}
+  				}// end even crossover
+  			pop[i] = new Tour(cities,parent1);//.setTourInt(parent1);
+	  		pop[i+1] = new Tour(cities,parent2);
+	  		//System.out.println("child1" + pop[i].toString());
+	  		//System.out.println("child2" + pop[i+1].toString());
   			}
   			
   		
   		//if odd amount of parents use previous parent
   		if(populationSize%2>0){
+  			parent1 = pop[pop.length-2].getTourInt();
+  			parent2 = pop[pop.length-1].getTourInt();
   			int XOIndex[] =new int[2]; 
   			//generate random indexes for crossover
   			XOIndex[0]=	r.nextInt((int)(tourSize*rateXO)); //generate random index for start
@@ -120,19 +136,19 @@ public class GeneticAlgorithm {
   			//System.out.println("Parent1: " + population[i]+"\nParent2:"+population[i+1]);
   			// do crossover
   			for(int s = XOIndex[0];s<XOIndex[1];s++ ){
-  				int p1Holder = population[populationSize-1][s];
-  				int p2Holder = population[populationSize-2][s];
+  				int p1Holder = parent1[s];
+  				int p2Holder = parent2[s];
   				// do crossover 
-  				for(int find=0;populationSize-1<tourSize;find++){
+  				for(int find=0;find<tourSize;find++){
   					
-  					if(population[populationSize-1][find] == p1Holder && find !=s){
-  					population[populationSize-1][s] = population[populationSize-1][find];
-  					population[populationSize-1][find]=p1Holder;
+  					if(parent1[find] == p1Holder && find !=s){
+  					parent1[s] = parent1[find];
+  					parent1[find]=p1Holder;
   						  }
   					
-  					if(population[populationSize-2][find] == p2Holder && find !=s){
-  	  					population[populationSize-2][s] = population[populationSize-2][find];
-  	  					population[populationSize-2][find]=p2Holder;
+  					if(parent2[find] == p2Holder && find !=s){
+  	  					parent2[s] = parent2[find];
+  	  					parent2[find]=p2Holder;
   	  					  }
   					}
   				}// end do crossover
