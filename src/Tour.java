@@ -5,6 +5,7 @@ public class Tour{
      *Has a property for the total distance of the tour, getTourDistance.       	*
      ********************************************************************************/
     private City tour[];
+    private int tourInt[];
     private double tourDistance;
     private double fitness;
     
@@ -15,8 +16,9 @@ public class Tour{
      * @param cities
      * @param tourPath - the 
      */
+
     public Tour(City cities[], int tourPath[]){
-    	
+    	this.tourInt = tourPath;
     	this.tour = new City[cities.length];
     	tourDistance = 0;
     	
@@ -25,24 +27,28 @@ public class Tour{
     	}
     	
     	tourDistance = calculateTourDistance();
-    	System.out.println("Tour Distance: " + tourDistance);
+    	//System.out.println("Tour Distance: " + tourDistance);
     	
     	fitness = calculateFitness(tourDistance);
     }
+    /*public void setTourInt(int tour[]){
+    	this.tourInt=tour;
+    	
+    }*/
+   public int[] getTourInt(){
+	   return tourInt;
+   }
 
     public String toString(){
     	
     	String s = "";
-    	
+    	s += "Total Distance: " + tourDistance + "\n";
     	for(int i = 0; i < tour.length; ++i){
-    		s += "City " + (i + 1) + " ( " + Math.round(tour[i].x) + ", " + Math.round(tour[i].y) + " )";
-    		
-    		if(i < tour.length - 1){
-    			s += " -> ";
-    		}
+    		s += (tourInt[i] + 1)+" ";
+  
     	}
     	
-    	s += "Total Distance: " + tourDistance + "\n";
+    	
     	
     	return s;
     }
