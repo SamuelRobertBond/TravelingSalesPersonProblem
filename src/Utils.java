@@ -1,12 +1,13 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Utils {
-	
+	static Comparator<Tour> sortByFitness;
 	public static City[] getCities(File file){
 		
 		Scanner in = null;
@@ -107,4 +108,14 @@ public class Utils {
 		
 		return cities;
 	}
+	
+	static {
+        sortByFitness = new Comparator<Tour>(){
+            @Override
+            public int compare(Tour t1, Tour t2){
+                // Java 7 has an Integer#compare function
+                return Double.compare(t2.getFitness(), t1.getFitness());
+            }
+        };
+	}//end static
 }

@@ -11,7 +11,7 @@ public class Driver {
 		//Reads in from file and inits population
 		//Change Parameters before submitting ---------------
 		City cities[] = Utils.getCities(new File("res/dj38.txt"));
-		int maxGeneration = 1000000;
+		int maxGeneration = 10000;
 		int populationSize = 100;
 		double rateMut=0.1;
 		double rateXO = 0.5;
@@ -54,9 +54,11 @@ public class Driver {
 				switchCnt++;
 				eliteCnt=0;
 			}
+			
 			generation++;
 		}//end generation while
 		System.out.println(geneAl.getElite() + "\nSwitch Count:" +switchCnt +"\nElite Updates"+updateElite );
+		geneAl.showElite();
 	}
 	
 }

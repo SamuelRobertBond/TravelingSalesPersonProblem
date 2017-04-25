@@ -14,6 +14,7 @@ public class GeneticAlgorithm {
   	private City cities[];
   	Tour pop[];
   	Tour elite;//[];
+  	LinkedList<Tour> elitist = new LinkedList<Tour>();
  	 
   	public GeneticAlgorithm(int populationSize, double rateMutation, double rateXO, City cities[]) {
   		this.populationSize = populationSize;
@@ -49,15 +50,9 @@ public class GeneticAlgorithm {
   	  	  		population[j][i] = list.remove(index);
   	  	  	//	System.out.print(population[j][i] + " -> ");
   	  		}
-  			pop[j]= new Tour(cities,population[j]);
-  			
-  			// replace with add to elite function
-  			//add to elite
-  			if(j==0){
-  				elite = pop[j];
-  			}else if (elite.getFitness()<pop[j].getFitness()){
-  				elite = pop[j];
-  			}
+  			Tour tour1 =new Tour(cities,population[j]); 
+  			pop[j]= tour1;
+  			addElite(tour1);
   			
   			//System.out.println("\n");
   		}
@@ -203,19 +198,13 @@ public class GeneticAlgorithm {
   	  				parent1[i]=temp2[i-XOIndex[1]];
   	  				parent2[i]=temp1[i-XOIndex[1]];
   	  				}
-  	  			pop[rList] = new Tour(cities,parent1);//.setTourInt(parent1);
-  	  			// replace with add to elite function
-  	  			if(elite.getFitness()< pop[rList].getFitness()){
-  	  				elite = pop[rList];
-  	  			}
-  		  		pop[rList2] = new Tour(cities,parent2);
-  		  		// replace with add to elite function
-  		  		if(elite.getFitness()< pop[rList2].getFitness()){
-  	  				elite = pop[rList2];
-  	  			}
-  		  		//System.out.println("child1" + pop[i].toString());
-  		  		//System.out.println("child2" + pop[i+1].toString());
   	  			
+  	  				Tour tour1= new Tour(cities,parent1);//.setTourInt(parent1);
+  	  				pop[rList] = tour1; 
+  	  				addElite(tour1);
+  	  				Tour tour2= new Tour(cities,parent2);
+  	  				pop[rList2] =tour2;
+  	  				addElite(tour2);
   	  			}
   	  		}// end population loop
   		}
@@ -273,18 +262,13 @@ public class GeneticAlgorithm {
   				
   				}
   				}// end even crossover
-  			pop[rList] = new Tour(cities,parent1);//.setTourInt(parent1);
-  			// replace with add to elite function
-  			if(elite.getFitness()< pop[rList].getFitness()){
-  				elite = pop[rList];
-  			}
-	  		pop[rList2] = new Tour(cities,parent2);
-	  		// replace with add to elite function
-	  		if(elite.getFitness()< pop[rList2].getFitness()){
-  				elite = pop[rList2];
-  			}
-	  		//System.out.println("child1" + pop[i].toString());
-	  		//System.out.println("child2" + pop[i+1].toString());
+  			
+  			Tour tour1= new Tour(cities,parent1);//.setTourInt(parent1);
+				pop[rList] = tour1; 
+				addElite(tour1);
+  			Tour tour2= new Tour(cities,parent2);
+		  		pop[rList2] =tour2;
+		  		addElite(tour2);
   			}
   			
   		
@@ -321,6 +305,12 @@ public class GeneticAlgorithm {
   	  					  }
   					}
   				}// end do crossover
+  			Tour tour1= new Tour(cities,parent1);//.setTourInt(parent1);
+			pop[pop.length-2] = tour1; 
+			addElite(tour1);
+			Tour tour2= new Tour(cities,parent2);
+	  		pop[pop.length-1] =tour2;
+	  		addElite(tour2);
   			}// end if odd xo
   			
   	}// end PMX
@@ -366,8 +356,10 @@ public void mutate( ){
 					random -= 1;
 				}
 			}
-			
-			pop[p] = new Tour(cities,parent);
+			Tour tour1= new Tour(cities,parent);
+		  		pop[p] =tour1;
+		  		//addElite(tour1);
+			//pop[p] = new Tour(cities,parent);
 			
 		}//end for population Size
 		
@@ -375,6 +367,22 @@ public void mutate( ){
   	
   	//Check Termination Conditions
   	public Tour getElite(){
-  		return elite;//[0];
+  		return elitist.peekFirst();//[0];
+  	}
+  	
+  	public void addElite(Tour iTour){
+  	if (elitist.size()<10){
+  		elitist.add(iTour);
+  		elitist.sort(Utils.sortByFitness);
+  	}else{
+  		elitist.add(iTour);
+  		elitist.sort(Utils.sortByFitness);
+  		elitist.removeLast();
+  	}
+  	
+  	}//end add elite
+  	
+  	public void showElite(){
+  		System.out.println(elitist);
   	}
 }
