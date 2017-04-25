@@ -113,8 +113,7 @@ public class Utils {
         sortByFitness = new Comparator<Tour>(){
             @Override
             public int compare(Tour t1, Tour t2){
-                // Java 7 has an Integer#compare function
-                return Double.compare(t2.getFitness(), t1.getFitness());
+                return Double.compare(t1.getTourDistance(), t2.getTourDistance());
             }
         };
 	}//end static

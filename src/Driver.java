@@ -53,6 +53,8 @@ public class Driver {
 				XOSwitch=!XOSwitch;
 				switchCnt++;
 				eliteCnt=0;
+				//if(switchCnt%100==0 && switchCnt>100)
+				//geneAl.SeedElite();
 			}
 			
 			generation++;

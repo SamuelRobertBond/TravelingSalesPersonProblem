@@ -375,9 +375,16 @@ public void mutate( ){
   		elitist.add(iTour);
   		elitist.sort(Utils.sortByFitness);
   	}else{
+  		boolean add = true;
+  		for(int i=0;i<elitist.size();i++)
+  			if(elitist.get(i).getTourInt().equals(iTour.getTourInt())){
+  				add = false;
+  			}
+  		if(add){
   		elitist.add(iTour);
   		elitist.sort(Utils.sortByFitness);
   		elitist.removeLast();
+  		}
   	}
   	
   	}//end add elite
@@ -385,4 +392,11 @@ public void mutate( ){
   	public void showElite(){
   		System.out.println(elitist);
   	}
+  	public void SeedElite(){
+  		System.out.println("Seed Population");
+  		Random r = new Random();
+  		for(int i=0;i<elitist.size();i++){
+  			pop[r.nextInt(populationSize/2)+populationSize/2]=new Tour(cities,elitist.get(i).getTourInt());
+  		}
+		}
 }
