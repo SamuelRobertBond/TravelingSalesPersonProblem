@@ -3,7 +3,7 @@ import java.util.Set;
 
 public class SelectionClass {
 
-	public static Tour[] selectParents(Tour population[], int amount){
+public static Tour[] selectParents(Tour population[], int amount){
 		
 		Tour parents[] = new Tour[amount];
 		
