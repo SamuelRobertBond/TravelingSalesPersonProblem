@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -32,7 +33,6 @@ public class GeneticAlgorithm {
   		LinkedList<Integer> list = new LinkedList<Integer>();
   		
   		Random r = new Random(); //Replace with something more efficient
-  		int cityIndexes[] = new int[tourSize];
   		
   		//Manages Population index
   		for(int j = 0; j < populationSize; ++j){
@@ -103,6 +103,8 @@ public class GeneticAlgorithm {
 			
 		}
 		
+		pop = parents;
+		
 	}
   	
   	
@@ -153,13 +155,14 @@ public class GeneticAlgorithm {
   			XOIndex[1]+=XOIndex[0];//add start index to end index to ensure
   			
   			//if end index is greater than tourSize
-  			if (XOIndex[1]>tourSize){
-  				XOIndex[0]-=(XOIndex[1]-tourSize);
-  				XOIndex[1]-=(XOIndex[1]-tourSize);//set end index
+  			if (XOIndex[1] > tourSize){
+  				XOIndex[0] -= (XOIndex[1]-tourSize);
+  				XOIndex[1] -= (XOIndex[1]-tourSize);//set end index
   			}
   			
   	  		int temp1[] = new int[(parent1.length-(XOIndex[1]-XOIndex[0]))];
   	  		int t1i=0;
+  	  		
   	  		int temp2[] = new int[parent1.length-(XOIndex[1]-XOIndex[0])];
   	  		int t2i=0;
   	  		
@@ -168,6 +171,7 @@ public class GeneticAlgorithm {
   	  			
   	  			boolean p1=false;
   	  			boolean p2=false;
+  	  			
   	  			for(int j =XOIndex[0]; j<XOIndex[1];j++){
   	  				if(parent1[i]==parent2[j]){
   	  					p1=true;
@@ -190,21 +194,21 @@ public class GeneticAlgorithm {
   	  		
   	  		//copy to parent objects
   	  			for(int i =0;i<parent1.length;i++){
-  	  				if(i<XOIndex[0]){
-  	  				parent1[i]=temp2[(temp2.length-XOIndex[0])+i];
-  	  				parent2[i]=temp1[(temp2.length-XOIndex[0])+i];  
+  	  				if(i < XOIndex[0]){
+  	  					parent1[i]=temp2[(temp2.length-XOIndex[0])+i];
+  	  					parent2[i]=temp1[(temp2.length-XOIndex[0])+i];  
   	  				}
-  	  				if(i>=XOIndex[1]){
-  	  				parent1[i]=temp2[i-XOIndex[1]];
-  	  				parent2[i]=temp1[i-XOIndex[1]];
+  	  				
+  	  				if(i >= XOIndex[1]){
+  	  					parent1[i]=temp2[i-XOIndex[1]];
+  	  					parent2[i]=temp1[i-XOIndex[1]];
   	  				}
   	  			
   	  				Tour tour1= new Tour(cities,parent1);//.setTourInt(parent1);
   	  				pop[rList] = tour1; 
-  	  				addElite(tour1);
+  	  				
   	  				Tour tour2= new Tour(cities,parent2);
-  	  				pop[rList2] =tour2;
-  	  				addElite(tour2);
+  	  				pop[rList2] = tour2;
   	  			}
   	  		}// end population loop
   		}
@@ -222,10 +226,11 @@ public class GeneticAlgorithm {
   			list.add(i);
   		}
   		
-  		for(int i=0;i<populationSize/2;i+=2){
+  		for(int i=0;i<populationSize/2;i +=2){
   			
   			int rList = r.nextInt(list.size());
   			parent1 = pop[list.remove(rList)].getTourInt();
+  			
   			int rList2 =r.nextInt(list.size());
   			parent2 = pop[list.remove(rList2)].getTourInt();
 
@@ -260,22 +265,23 @@ public class GeneticAlgorithm {
   	  					  }
   					
   				
-  				}
+  					}
   				}// end even crossover
   			
   			Tour tour1= new Tour(cities,parent1);//.setTourInt(parent1);
-				pop[rList] = tour1; 
-				addElite(tour1);
-  			Tour tour2= new Tour(cities,parent2);
-		  		pop[rList2] =tour2;
-		  		addElite(tour2);
-  			}
+  			pop[rList] = tour1; 
+  			
+			Tour tour2= new Tour(cities,parent2);
+		  	pop[rList2] =tour2;
+  		}
   			
   		
   		//if odd amount of parents use previous parent
   		if(populationSize%2>0){
+  			
   			parent1 = pop[pop.length-2].getTourInt();
   			parent2 = pop[pop.length-1].getTourInt();
+  			
   			int XOIndex[] =new int[2]; 
   			//generate random indexes for crossover
   			XOIndex[0]=	r.nextInt((int)(tourSize*rateXO)); //generate random index for start
@@ -305,12 +311,12 @@ public class GeneticAlgorithm {
   	  					  }
   					}
   				}// end do crossover
-  			Tour tour1= new Tour(cities,parent1);//.setTourInt(parent1);
-			pop[pop.length-2] = tour1; 
-			addElite(tour1);
-			Tour tour2= new Tour(cities,parent2);
-	  		pop[pop.length-1] =tour2;
-	  		addElite(tour2);
+  			
+  				Tour tour1= new Tour(cities, parent1);//.setTourInt(parent1);
+  				pop[pop.length-2] = tour1; 
+
+				Tour tour2= new Tour(cities, parent2);
+	  			pop[pop.length-1] =tour2;
   			}// end if odd xo
   			
   	}// end PMX
@@ -328,7 +334,7 @@ public void mutate( ){
 		//This will serve as the basis for future mutation
 		double random = Math.abs(r.nextGaussian());
 		
-		for(int p =0;p<populationSize;p++){
+		for(int p =0; p < populationSize;p++){
 			
 			int parent[] = pop[p].getTourInt();
 			
@@ -356,11 +362,10 @@ public void mutate( ){
 					random -= 1;
 				}
 			}
-			Tour tour1= new Tour(cities,parent);
-		  		pop[p] =tour1;
-		  		//addElite(tour1);
-			//pop[p] = new Tour(cities,parent);
 			
+			Tour tour1= new Tour(cities, parent);
+		  	pop[p] = tour1;
+		  	addElite(tour1);
 		}//end for population Size
 		
 	}
@@ -371,32 +376,46 @@ public void mutate( ){
   	}
   	
   	public void addElite(Tour iTour){
-  	if (elitist.size()<10){
-  		elitist.add(iTour);
-  		elitist.sort(Utils.sortByFitness);
-  	}else{
+  		
+  		iTour= new Tour(cities, iTour.getTourInt());
+  		
   		boolean add = true;
-  		for(int i=0;i<elitist.size();i++)
-  			if(elitist.get(i).getTourInt().equals(iTour.getTourInt())){
+  			
+  		for(int i=0; i < elitist.size() ;i++){
+  			if(Arrays.equals(elitist.get(i).getTourInt(), iTour.getTourInt())){
   				add = false;
   			}
-  		if(add){
-  		elitist.add(iTour);
-  		elitist.sort(Utils.sortByFitness);
-  		elitist.removeLast();
   		}
-  	}
-  	
+  			
+  		if(add){
+  			elitist.add(iTour);
+  			elitist.sort(Utils.sortByFitness);
+  			
+  			if(elitist.size() > 10){
+  	  			elitist.removeLast();
+  			}
+  			
+  		}
+  		
+  		
   	}//end add elite
   	
   	public void showElite(){
   		System.out.println(elitist);
   	}
+  	
   	public void SeedElite(){
-  		System.out.println("Seed Population");
+  		
   		Random r = new Random();
-  		for(int i=0;i<elitist.size();i++){
-  			pop[r.nextInt(populationSize/2)+populationSize/2]=new Tour(cities,elitist.get(i).getTourInt());
+  		
+  		for(int i=0; i < elitist.size(); i++){
+  			pop[r.nextInt(populationSize)] = new Tour(cities, elitist.get(i).getTourInt());
   		}
-		}
+  		
+	}
+  	
+  	public void UpdateXORate(double rateXO){
+  		this.rateXO = rateXO;
+  	}
+  	
 }

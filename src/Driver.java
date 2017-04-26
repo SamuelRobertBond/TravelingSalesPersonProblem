@@ -11,10 +11,13 @@ public class Driver {
 		//Reads in from file and inits population
 		//Change Parameters before submitting ---------------
 		City cities[] = Utils.getCities(new File("res/dj38.txt"));
-		int maxGeneration = 10000;
+		int maxGeneration =  100;
 		int populationSize = 100;
-		double rateMut=0.1;
-		double rateXO = 0.5;
+		double rateMut=0.4;
+		double rateXO = 0.7;
+		int XOAdjust[] = new int[2];
+			XOAdjust[0]=maxGeneration-((int) (maxGeneration*rateXO));
+			XOAdjust[1]=maxGeneration-((int) (maxGeneration*rateXO));
 		int generation=0;
 		Tour solution;
 		int eliteCnt=0;
@@ -40,25 +43,39 @@ public class Driver {
 			//geneAl.PMX(cities.length);
 			//Preforms Mutation
 			geneAl.mutate();
+			/*if(generation>XOAdjust[0]){
+				if(rateXO>0.2){
+					rateXO-=.1;
+				}
+				geneAl.UpdateXORate(rateXO);
+				XOAdjust[0]+=XOAdjust[1];
+				System.out.println("Generation:"+ generation +" ratexo:"+rateXO);
+				System.out.println(geneAl.getElite() + "\nSwitch Count:" +switchCnt +"\nElite Updates"+updateElite );
+			}*/
 			
 			if (eliteDistance > geneAl.getElite().getTourDistance()){
 				eliteDistance = geneAl.getElite().getTourDistance();
 				eliteCnt=0;
 				updateElite++;
+				System.out.println(geneAl.getElite());
 			}else{
 				eliteCnt++;
 			}
 			
-			if(eliteCnt==10){
+			if(eliteCnt>maxGeneration*.01){
 				XOSwitch=!XOSwitch;
 				switchCnt++;
 				eliteCnt=0;
-				//if(switchCnt%100==0 && switchCnt>100)
-				//geneAl.SeedElite();
+				geneAl.SeedElite();
+				
 			}
+				
+			// adjust crossover rate as algorithm progresses	
+			
 			
 			generation++;
 		}//end generation while
+		
 		System.out.println(geneAl.getElite() + "\nSwitch Count:" +switchCnt +"\nElite Updates"+updateElite );
 		geneAl.showElite();
 	}

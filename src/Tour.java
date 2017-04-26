@@ -18,8 +18,10 @@ public class Tour{
      */
 
     public Tour(City cities[], int tourPath[]){
+    	
     	this.tourInt = tourPath;
     	this.tour = new City[cities.length];
+    	
     	tourDistance = 0;
     	
     	for (int Index = 0; Index < this.tour.length; Index++) {
@@ -31,12 +33,10 @@ public class Tour{
     	
     	fitness = calculateFitness(tourDistance);
     }
-    /*public void setTourInt(int tour[]){
-    	this.tourInt=tour;
-    	
-    }*/
+
+    
    public int[] getTourInt(){
-	   return tourInt;
+	   return tourInt.clone();
    }
 
     public String toString(){
@@ -47,8 +47,6 @@ public class Tour{
     		s += (tourInt[i] + 1)+" ";
   
     	}
-    	
-    	
     	
     	return s;
     }
