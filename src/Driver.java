@@ -26,7 +26,7 @@ public class Driver {
 		if (args.length==1){
 			cities = Utils.getCities(new File(args[0]));
 		}else if(args.length == 0){
-			//cities = Utils.getCities(new File("res/dj38.txt"));
+			cities = Utils.getCities(new File("res/dj38.txt"));
 		}
 		
 		if(args.length>1){
