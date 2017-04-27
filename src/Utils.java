@@ -1,9 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.math.BigDecimal;
 import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Utils {
@@ -38,14 +35,12 @@ public class Utils {
 			}
 		}
 		
-		System.out.println();
 		
 		City[] cities = new City[count];
 		
-		
 		for(int i = 0; i < count; ++i){
 			
-			int waste = in.nextInt();
+			in.nextInt(); //Waste
 			double[] parsed = {in.nextDouble(), in.nextDouble()};
 			
 			cities[i] = new City(parsed[0] , parsed[1]);

@@ -1,9 +1,7 @@
 /City.class
 /Driver.class
 /GeneticAlgorithm.class
-/Tour.class
-/Utils.class
-/MutationClass.class
 /SelectionClass.class
-/TestClass.class
+/Tour.class
 /Utils$1.class
+/Utils.class

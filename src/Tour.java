@@ -41,8 +41,8 @@ public class Tour{
 
     public String toString(){
     	
-    	String s = "";
-    	s += "Total Distance: " + tourDistance + "\n";
+    	String s = tourDistance + "\n";
+    	
     	for(int i = 0; i < tour.length; ++i){
     		s += (tourInt[i] + 1)+" ";
   
